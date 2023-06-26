@@ -67,7 +67,7 @@ async def media(client, message):
      if not is_admin.can_edit_messages:
         await message.reply("You are not permited to do this, since you do not have the right to edit posts in this channel.")
         return
-            
+
      try:
         await client.edit_message_media(
                chat_id = chid,
@@ -82,5 +82,4 @@ async def media(client, message):
              quote=True
            )
 
-         
-   
+

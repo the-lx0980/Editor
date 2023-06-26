@@ -2,12 +2,12 @@ from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 START_MSG = """**Hi {}
-  
+
 I am a Media Editor bot ...
 
 You can edit/relace the documents,videos,gifs,audios,photos etc… Of Your Channels easily By Using Me**
 
-`For More Info On Usage Hit ➟` /help 
+`For More Info On Usage Hit ➟` /help
 
 """
 
