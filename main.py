@@ -25,7 +25,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 DOWNLOAD_LOCATION = "/downloads"
 
 if __name__ == "__main__" :
-    
+
     plugins = dict(
         root="plugins"
     )
