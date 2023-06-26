@@ -1,6 +1,6 @@
 import os
 
-class Config(object):
+class Config:
     
     DOWNLOAD_LOCATION = "./DOWNLOADS"
 
