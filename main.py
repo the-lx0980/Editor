@@ -18,6 +18,8 @@ from config import Config
 
 uvloop.install()
 
+DOWNLOAD_LOCATION = "./DOWNLOADS"
+
 class ReplaceBot(Client, Config):
     def __init__(self):
         super().__init__(
