@@ -1,41 +1,43 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K
+# (c) Shrimadhav U K | Lx 0980
 
-# the logging things
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-import os
-from pyromod import listen
-
-
-# the secret configuration specific things
-if bool(os.environ.get("WEBHOOK", False)):
-    from sample_config import Config
-else:
-    from config import Config
-
-import pyrogram
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(lineno)d - %(module)s - %(levelname)s - %(message)s'
+)
+logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+import os, uvloop
+from pyromod import listen
+from pyrogram import enums, Client
+from config import Config
 
-DOWNLOAD_LOCATION = "/downloads"
+
+uvloop.install()
+
+class ReplaceBot(Client, Config):
+    def __init__(self):
+        super().__init__(
+            name="ReplaceBot",
+            bot_token=self.BOT_TOKEN,
+            api_id=self.API_ID,
+            api_hash=self.API_HASH,
+            workers=20,
+            plugins={'root': 'plugins'}
+        )
+
+    async def start(self):
+        await super().start()
+        me = await self.get_me()
+        print(f"New session started for {me.first_name}({me.username})")
+
+    async def stop(self):
+        await super().stop()
+        print("Session stopped. Bye!!")
+
 
 if __name__ == "__main__" :
-    
-    plugins = dict(
-        root="plugins"
-    )
-    app = pyrogram.Client(
-        ":memory:",
-        bot_token=Config.TG_BOT_TOKEN,
-        api_id=Config.APP_ID,
-        api_hash=Config.API_HASH,
-        plugins=plugins,
-        parse_mode="html"
-    )
-    Config.AUTH_USERS.add(677799710)
-    app.run()
+    ReplaceBot().run()
