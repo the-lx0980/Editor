@@ -2,7 +2,15 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | Lx 0980
 
+import asyncio
 import logging
+import uvloop
+from pyromod import listen
+from pyrogram import Client, enums
+from config import Config
+
+uvloop.install()
+
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(lineno)d - %(module)s - %(levelname)s - %(message)s'
@@ -10,23 +18,15 @@ logging.basicConfig(
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-import os, uvloop
-from pyromod import listen
-from pyrogram import enums, Client
-from config import Config
-
-
-uvloop.install()
-
 DOWNLOAD_LOCATION = "./DOWNLOADS"
 
-class ReplaceBot(Client, Config):
+class ReplaceBot(Client):
     def __init__(self):
         super().__init__(
-            name="ReplaceBot",
-            bot_token=self.BOT_TOKEN,
-            api_id=self.API_ID,
-            api_hash=self.API_HASH,
+            session_name="ReplaceBot",
+            bot_token=Config.BOT_TOKEN,
+            api_id=Config.API_ID,
+            api_hash=Config.API_HASH,
             workers=20,
             plugins={'root': 'plugins'}
         )
@@ -41,5 +41,7 @@ class ReplaceBot(Client, Config):
         print("Session stopped. Bye!!")
 
 
-if __name__ == "__main__" :
-    ReplaceBot().run()
+if __name__ == "__main__":
+    client = ReplaceBot()
+    asyncio.run(client.start())
+    client.run_until_disconnected()
