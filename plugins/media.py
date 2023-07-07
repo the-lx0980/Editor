@@ -1,14 +1,12 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyromod import listen
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InputMediaPhoto,InputMediaDocument,InputMediaVideo,InputMediaAnimation,InputMediaAudio
 from asyncio import TimeoutError
 import os
 PACK = filters.animation | filters.document| filters.video|filters.audio |filters.photo
-if bool(os.environ.get("WEBHOOK", False)):
-    from sample_config import Config
-else:
-    from config import Config
+
+from config import Config
 
 
 @Client.on_message(PACK  & filters.private)
@@ -38,13 +36,13 @@ async def media(client, message):
          print('no way')
 
      try:
-         a = await client.ask(message.chat.id,'Now send me the link of the message of the channnel that you need to edit',
+         a = await message.chat.ask('Now send me the link of the message of the channnel that you need to edit',
                     filters=filters.text, timeout=30)
 
      except TimeoutError:
            await message.reply_text(
              "```Session Timed Out. Resend the file to Start again```",
-             parse_mode="md",
+             parse_mode=enums.ParseMode.MARKDOWN,
              quote=True
            )
            return
@@ -78,7 +76,7 @@ async def media(client, message):
            await message.reply_text(e)
            return
      await message.reply_text("**successfully Edited the media**",
-             parse_mode="md",
+             parse_mode=enums.ParseMode.MARKDOWN,
              quote=True
            )
 
